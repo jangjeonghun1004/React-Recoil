@@ -1,50 +1,95 @@
-# React + TypeScript + Vite
+# Recoil 설치
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```console
+npm install recoil
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+# Recoil 설정
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+**설정**
+```console
+<RecoilRoot>
+  <App />
+</RecoilRoot>
+```
+
+**폴더 및 파일 추가**
+```htm
+recoil
+  - atoms
+    - defaultAtoms.ts
+    - ...
+  - selectors
+    - defaultSelectors.ts
+    - ...
+```
+
+
+# atom
+```javascript
+import { atom } from "recoil";
+
+const keyword = atom<string>({
+    key: 'keyword',
+    default: 'this is a keyword default value.'
+});
+
+const testword = atom<string>({
+    key: 'testword',
+    default: 'this is a testword default value.'
+});
+
+
+export {keyword, testword}
+```
+
+
+# selector
+```javascript
+import { selector } from "recoil";
+import { keyword } from "../atoms/defaultAtoms";
+import axios from "axios";
+
+const selectorToDo = selector({
+    key: 'selectorToDo',
+    get: async ({get}) => {
+        console.log(get(keyword));
+
+        try {
+            const result = await axios.get('https://jsonplaceholder.typicode.com/todos');
+
+            console.log(result);
+            return result;
+        } catch(error) {
+            console.log(error);
+        }
+    }
+});
+
+
+export {selectorToDo}
+```
+
+
+# useRecoilValueLoadable & useMemo
+
+```javascript
+const todos = useRecoilValueLoadable(selectorToDo);
+const todoList = useMemo(() => {
+  if(todos.state === 'hasValue' && todos.contents) {
+    return <ToDoList data={todos.contents?.data} />
+  } else if(todos.state === 'loading') {
+    return <span className="loader"></span>
+  } else {
+    return <Error />
+  }
+}, [todos]);
+```
+  
+
+# Axios 설치
+
+```console
+npm install axios
 ```
