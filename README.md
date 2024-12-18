@@ -88,6 +88,16 @@ const todoList = useMemo(() => {
 ```
   
 
+# useRecoilState
+```javascript
+const [keywordd, setKeywordd] = useRecoilState<string>(keyword);
+const handleClick = () => {
+    setKeywordd('changed values of keyword.');
+};
+
+```
+
+
 # Axios 설치
 
 ```console
