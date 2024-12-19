@@ -4,11 +4,11 @@ import { selectorToDo } from './recoil/selectors/defaultSelectors';
 import { useMemo } from 'react';
 import ToDoList from './shared/ToDoList';
 import Error from './shared/Error';
-import { keywordAtom } from './recoil/atoms/defaultAtoms';
+import { keywordState } from './recoil/atoms/defaultAtoms';
 
 
 function App() {
-  const [keyword, setKeyword] = useRecoilState(keywordAtom);
+  const [keyword, setKeyword] = useRecoilState(keywordState);
   const todos = useRecoilValueLoadable(selectorToDo);
 
   const todoList = useMemo(() => {

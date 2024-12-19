@@ -1,12 +1,12 @@
 import { selector } from "recoil";
-import { keywordAtom, testwordAtom } from "../atoms/defaultAtoms";
+import { keywordState, testwordState } from "../atoms/defaultAtoms";
 import axios from "axios";
 
 const selectorToDo = selector({
     key: 'selectorToDo',
     get: async ({get}) => {
-        console.log(get(keywordAtom));
-        console.log(get(testwordAtom));
+        console.log(get(keywordState));
+        console.log(get(testwordState));
 
         try {
             return await axios.get('https://jsonplaceholder.typicode.com/todos');

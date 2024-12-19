@@ -1,14 +1,14 @@
 import { atom } from "recoil";
 
-const keywordAtom = atom<string>({
-    key: 'keywordAtom',
+const keywordState = atom<string>({
+    key: 'keywordState',
     default: 'this is a keyword default value.'
 });
 
-const testwordAtom = atom<string>({
-    key: 'testwordAtom',
+const testwordState = atom<string>({
+    key: 'testwordState',
     default: 'this is a testword default value.'
 });
 
 
-export {keywordAtom, testwordAtom}
+export {keywordState, testwordState}
